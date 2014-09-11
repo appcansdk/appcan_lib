@@ -6,8 +6,8 @@ appcanLib 是appcan根据自己的需求封装的一个开发库，对底层的�
 
 #框架说明
 
-appcan前端整体框架
-![appcan 前端框架](./img/appcan_framework.jpg)
+appcan前端整体框架     
+![appcan 前端框架](http://ww4.sinaimg.cn/mw690/8dd3f635jw1ek8e36xm89j20yq0omdih.jpg)
 
 #使用说明
 
