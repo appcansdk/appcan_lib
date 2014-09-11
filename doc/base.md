@@ -6,14 +6,14 @@ appcanLib 是appcan根据自己的需求封装的一个开发库，对底层的�
 
 #框架说明
 
-appcan前端整体框架     
+appcan前端整体框架
 ![appcan 前端框架](http://ww4.sinaimg.cn/mw690/8dd3f635jw1ek8e36xm89j20yq0omdih.jpg)
 
 #使用说明
 
 在项目开发中你只需引入`dist/appcan.min.js`文件在你的项目中即可，该文件是系统自动根据源文件构建的包
 含了文件的所有依赖，然后按照常用的开发流程，进行后续的开发，具体细节参考后续相关文档说明。
-
+ 
 ##appcan核心模块
 
 appcan基础模块提供了一套管理整个`appcanlib`的方法
@@ -136,20 +136,176 @@ appcan整个框架依赖的基础库
 没有错误，否则表示操作出错了，`data`表示返回的操作结果,`dataType`操作结果的数据类型，`optId`该操作id     
 
 
-`db.transaction(sqlFun,callback)`:用返回的数据库对象，进行更新操作，`sql`要更新用的sql语句，`callback`是更新
-返回的结果回调，同样的`callback(err,data,dataType,optId)`第一个参数是`Error`对象如果为空则表示
+`db.transaction(sqlFun,callback)`:用返回的数据库对象，进行事务操作，`sqlFun`要执行用的sql语句序列函数，
+`callback`是事务返回的结果回调，同样的`callback(err,data,dataType,optId)`第一个参数是`Error`对象如果为空则表示
 没有错误，否则表示操作出错了，`data`表示返回的操作结果,`dataType`操作结果的数据类型，`optId`该操作id     
 
 
-
 ###appcan.database.select(name,sql,callback)
+在指定的数据库上执行查询操作   
+`name`:要查询的数据库名    
+`sql`:要执行sql查询语句    
+`callback(err,data,dataType,optId)`:第一个参数是`Error`对象如果为空则表示
+没有错误，否则表示操作出错了，`data`表示返回的操作结果,`dataType`操作结果的数据类型，`optId`该操作id    
+
+###appcan.database.exec(name,sql,callback)
+在指定的数据库上执行更新操作   
+`name`:要更新的数据库名    
+`sql`:要执行sql更新语句    
+`callback(err,data,dataType,optId)`:第一个参数是`Error`对象如果为空则表示
+没有错误，否则表示操作出错了，`data`表示返回的操作结果,`dataType`操作结果的数据类型，`optId`该操作id    
+
+###appcan.database.transaction(name,sqlFun,callback)
+在指定的数据库上执行事务操作   
+`name`:要执行事务的数据库名    
+`sqlFun`:要执行sql序列函数    
+`callback(err,data,dataType,optId)`:第一个参数是`Error`对象如果为空则表示
+没有错误，否则表示操作出错了，`data`表示返回的操作结果,`dataType`操作结果的数据类型，`optId`该操作id    
+
+###appcan.database.destory(name,[optId],callback)
+销毁已经创建的数据库    
+`name`:要销毁的数据库名称    
+`optId`:可选，销户数据库的操作id   
+`callback(err,data,dataType,optId)`:第一个参数是`Error`对象如果为空则表示
+没有错误，否则表示操作出错了，`data`表示返回的操作结果,`dataType`操作结果的数据类型，`optId`该操作id    
+
+
+##appcan detect模块
+该模块包含了一下浏览器基础能力的监测    
+
+###appcan.detect.browser
+浏览器相关信息    
+`appcan.detect.browser.version`:浏览器版本号   
+`appcan.detect.browser.name`:当前浏览器名称   
+`appcan.detect.browser.ie`:是否是ie   
+`appcan.detect.browser.chrome`:是否是chrome   
+`appcan.detect.browser.android`:是否是android   
+`appcan.detect.browser.iphone`:是否是iphone   
+`appcan.detect.browser.ios`:是否是ios   
+`appcan.detect.browser.ipad`:是否是ipad   
+`appcan.detect.browser.ipod`:是否是ipod   
+`appcan.detect.browser.wp`:是否是wp   
+`appcan.detect.browser.webos`:是否是webos   
+`appcan.detect.browser.touchpad`:是否是touchpad   
+`appcan.detect.browser.blackberry`:是否是blackberry   
+`appcan.detect.browser.bb10`:是否是bb10   
+`appcan.detect.browser.rimtabletos`:是否是rimtabletos   
+`appcan.detect.browser.playbook`:是否是playbook   
+`appcan.detect.browser.kindle`:是否是kindle   
+`appcan.detect.browser.silk`:是否是silk   
+`appcan.detect.browser.firefox`:是否是firefox   
+`appcan.detect.browser.safari`:是否是safari   
+`appcan.detect.browser.webview`:是否是webview   
+
+
+###appcan.detect.os
+操作系统相关信息    
+
+`appcan.detect.os.name`:操作系统名称   
+`appcan.detect.os.version`:操作系统版本号  
+`appcan.detect.os.phone`:是否是手机    
+`appcan.detect.os.tablet`:是否是平板    
+
+###appcan.detect.events
+关于事件的支持情况
+
+`appcan.detect.events.supportTouch`:是否支持touch事件
+   
+###appcan.detect.css
+关于css的支持情况    
+
+`appcan.detect.css.support3d`:是否支持3d  
+
+###appcan.detect.ua
+当前浏览器的ua信息   
+
+
+##appcan device
+appcan设备相关模块
+
+###appcan.device.vibrate(millisecond)
+使设备震动    
+`millisecond`:设备震动的时常 单位毫秒   
+
+###appcan.device.cancelVibrate()
+停止设备震动    
+
+###appcan.device.getInfo(infoId,callback)
+获取设备对应id的信息    
+`infoId`:相关信息id   
+> 0. `0`: 描述CPU频率的字符串，eg：“1024MHZ”。IOS平台获取不到时，返回“0”     
+> 1. `1`: 描述系统版本的字符串，eg：“Android2.3.4”   
+> 2. `2`:标书设备制造商的字符串eg:“htc”    
+> 3. `3`:代表是否支持键盘的字符串0（不支持）或1（支持）    
+> 4. `4`:代表是否支持蓝牙的字符串0（不支持）或1（支持）  
+>     当设备有蓝牙功能时，即使蓝牙关闭，返回信息仍然是支持蓝牙，即值为字符串1。    
+>     在IOS上的蓝牙功能只支持同一应用间使用，和普遍人们理解的不同，视为不支持。   
+> 5. `5`:代表是否支持WIFI的字符串0（不支持）或1（支持）   
+当设备有wifi功能时，即使wifi关闭，返回信息仍然是支持wifi，即值为字符串1。   
+> 6. `6`:代表是否支持摄像头的字符串0（不支持）或1（支持)    
+> 7. `7`:代表是否支持GPS的字符串0（不支持）或1（支持）   
+>     当设备有gps功能时，即使gps关闭，返回信息仍然是支持gps，即值为字符串1。    
+> 8. `8`:代表当前移动网络数据连接是否可用（不含WIFI）的字符串0（不可用）或1（可用）    
+> 9. `9`:代表设备是否支持触屏的字符串0（不支持）或1 （支持）    
+> 10. `10`:代表此设备IMEI（国际移动设备唯一标识码）号的15位字符串，eg：“356357046156042”。  
+>      在IOS上，获得不到imei时可获得UUID，eg:“dea7f0e2f8c7dfd0c07555b96aff2d342587505b”    
+> 11. `11`:推送服务器需要的一个代表此设备的唯一令牌的字符串。   
+>      eg：“98d264a3 77689b33 6f1215e6 264ab0c5 55f45b4a ab61e6ff f667883a ef829ccb”,没有时返回空字符串。
+>      Android的deviceToken是softToken。   
+> 12. `12`:设备类型，用来判断当前的设备是phone	ouch或者pad(IOS专用，类型值参考常量表IOS设备类型)    
+> 13. `13`:当前联网的方式(类型值参考常量表网络状态类型)     
+> 14. `14`:当前设备剩余的磁盘空间大小的字符串，eg：“12345678”单位：字节	   
+>15. `15`:当前移动网络运营商的名称，比如”中国联通”,如果获取不到返回空字符串    
+>16. `16`:表示当前设备的WIFI mac地址 ，可作为设备的唯一标识，IMEI可能在某些不具备移动通讯的android平板或MP4上获取不到，但是android系统设备一般都会具有WIFI功能，所以mac地址作为设备唯一标识比IMEI更可靠   
+>17. `17`:当前设备的型号名称，如“Galaxy Nexus”   
+
+`callback(err,data,dataType,optId)`:第一个参数是`Error`对象如果为空则表示
+没有错误，否则表示操作出错了，`data`表示返回的操作结果,`dataType`操作结果的数据类型，`optId`该操作id    
+
+###appcan.device.getDeviceInfo(callback)
+获取所有相关的设备信息   
+`callback(deviceInfo,singleInfo,i,len,completeCount)`:`deviceInfo`当前已经获得的设备信息
+`singleInfo`正在读取的设备信息 `i`设备信息id `len`设备信息总数 `completeCount`已经获得的设备信息数
+
+##appcan eventEmitter事件模块
+关于事件自定义模块，如果想让你的某一个模块具有事件能力请将该对象扩展到你的目标对象上,该对象本身不能单独使用
+例如：`appcan.on('error',function(){})`当appcan捕获到错误的时候就会执行该方法。
+
+###appcan.eventEmitter.on(name,callback)
+具有自定义事件能力的对象绑定一个函数到指定的名字中   
+`name`:要绑定的事件名   
+`callback`:当事件被调起时，会执行该回调函数，参数是触发该事件触发者传入的，具体根据情况不同   
+
+###appcan.eventEmitter.off(name,callbakc)
+移除已经绑定到对应名称的回调函数    
+`name`:要移除的事件名   
+`callback`:该事件名对应的函数句柄   
+
+###appcan.eventEmitter.once(name,callback)
+执行完绑定的事件后，自动移除对应的事件    
+`name`:要移除的事件名   
+`callback`:该事件名对应的函数句柄     
+
+###appcan.eventEmitter.addEventListener(name,callback)
+`name`:要绑定的事件名   
+`callback`:当事件被调起时，会执行该回调函数，参数是触发该事件触发者传入的，具体根据情况不同   
+
+###appcan.eventEmitter.removeEventListener(name,callback)
+移除已经绑定到对应名称的回调函数    
+`name`:要移除的事件名   
+`callback`:该事件名对应的函数句柄  
+
+###appcan.eventEmitter.trigger(name,context,[args,...])
+触发绑定的对应的事件    
+`name`:对应的事件名称   
+`context`:
+
+
+   
 
 
 
 
-
-
-    
 
 
 
